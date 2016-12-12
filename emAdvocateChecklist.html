@@ -1,0 +1,466 @@
+<html lang="en">
+
+<head>
+
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function goToESLog(){
+            var graceid = $('#GraceIdValue').val();
+            window.open("https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+graceid+".log");
+        };
+        function goToGDB(){
+            var graceid = $('#GraceIdValue').val();
+            window.open("https://gracedb.ligo.org/events/view/"+graceid);
+        };
+        function goToLLDQ(){
+            var graceid = $('#GraceIdValue').val();
+            window.open("https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+graceid);
+        };
+    </script>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" rel="stylesheet">
+
+    <title>
+        EM Advocate Checklist
+    </title>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <nav class="navbar navar-inverse navebar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="#Humans" class="navbar-brand">
+                        Humans
+                    </a>
+                    <a href="#ApprovalProcessor" class="navbar-brand">
+                        Approval Processor
+                    </a>
+                    <a href="#EventSupervisor" class="navbar-brand">
+                        Event Supervisor
+                    </a>
+                    <a href="#DataQuality" class="navbar-brand">
+                        Data Quality
+                    </a>
+                    <a href="#ParameterEstimation" class="navbar-brand">
+                        Parameter Estimation
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <hr>
+
+        <div class="container" id="header">
+            <a href="#"><h1>EM Advocate Checklist</h1></a>
+        </div>
+
+        <div class="container" id="GraceId">
+            <div class="row">
+                <div class='col-md-5'>
+                    <strong><input type="text" name="graceid" id="GraceIdValue" value="GraceId"></strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-md-3'>
+                    <input type="button" onclick="goToGDB()" value="Go To GraceDb">
+                </div>
+                <div class='col-md-3'>
+                    <input type="button" onclick="goToESLog()" value="Go To EventSupervisor log">
+                </div>
+                <div class='col-md-3'>
+                    <input type="button" onclick="goToLLDQ()" value="Go To LLDQ Report">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="container" id="Emails">
+            <div class="row">
+                <div class='col-md-3'>
+                    <strong>EM Advocate's email</strong>
+                    <br>
+                    <input type="text" name="EMAdvocateEmail" id="EMAdvocateEmail" value="">
+                </div>
+                <div class='col-md-3'>
+                    <strong>Livingston Run Coordinator's email</strong>
+                    <br>
+                    <input type="text" name="LLORunCoordinator" id="LLORunCoordinator" value="brian@ligo-la.caltech.edu">
+                </div>
+                <div class='col-md-3'>
+                    <strong>Hanford Run Coordinator's email</strong>
+                    <br>
+                    <input type="text" name="LHORunCoordinator" id="LHORunCoordinator" value="kawabe_k@ligo-wa.caltech.edu">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        
+        <div class="container" id="Humans">
+            <a href=""><h2>Humans</h2></a>
+            <fieldset id="HumansField">
+                <div class="row">
+                    <div class='col-md-6'>
+                        <select name="RRT">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did a member of the DetChar RRT look at this event?
+                    </div>
+                    <div class='col-md-6'>
+                        <textarea name="RRTMembersText" rows="3" cols="50">Names of RRT members</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="PipelineExpert">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did a pipeline expert look at this event?
+                    </div>
+                    <div class='col-md-6'>
+                        <textarea name="PipelineExpert" rows="3" cols="50">Names of pipline experts</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Did anyone else look at this event?
+                        <br>
+                        <textarea name="Attendance" rows="3" cols="50">Names of analysts</textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <hr>
+
+        <div class="container" id="ApprovalProcessor">
+            <a href=""><h2>Approval Processor</h2></a>
+            <fieldset id="ApprovalProcessorField">
+                <div class="row">
+                    <div class='col-md-6'>
+                        <select name="ApprovalProcessorLabels">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did Approval Processor label this event correctly?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="ApprovalProcessorAnnotate">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did Approval Processor annotate GraceDb within information about its decision-making process?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-5'>
+                        Notes:
+                        <br>
+                        <textarea name="ApprovalProcessorText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <hr>
+
+        <div class="container" id="EventSupervisor">
+            <a href=""><h2>Event Supervisor</h2></a>
+            <fieldset id="EventSupervisorField">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="EventSupervisorLog">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did EventSupervisor generate a log?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="EventSupervisorAnnotate">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did EventSupervisor annotate GraceDb?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="EventSupervisorText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <hr>
+
+        <div class="container" id="DataQuality">
+            <a href=""><h2>Data Quality</h2></a>
+            <fieldset id="LLDQReport">
+                <legend>LLDQ Report</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="LLDQReportGenerated">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Was a LLDQ Report generated?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LLDQReportAnnotate">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Was a link to the LLDQ report posted to GraceDb?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Notes:
+                        <br>
+                        <textarea name="LLDQReportText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="OmegaScansField">
+                <legend>Omega Scans</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="h1_llhoft_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_llhoft</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_llhoft_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_llhoft</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_llhoft_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_llhoft</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_llhoft_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_llhoft</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-reduced_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-reduced</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-reduced_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-reduced</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-reduced_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-reduced</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-reduced_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-reduced</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-standard_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-standard</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-standard_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-standard</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-standard_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-standard</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-standard_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-standard</strong> OmegaScans completed successfully?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="OmegaScansText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="iDQ">
+                <legend>iDQ</legend>
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="iDQText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="DQFlags">
+                <legend>DQ Flags</legend>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="DQFlagsText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <hr>
+
+        <div class="container" id="ParameterEstimation">
+            <a href=""><h2>Parameter Estimation</h2></a>
+            <fieldset id="Bayestar">
+                <legend>Bayestar</legend>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="BayestarText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            <fieldset>
+            <fieldset id="EMBright">
+                <legend>EM Bright Classification</legend>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="EMBrightText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            <fieldset>
+            <fieldset id="LALInference">
+                <legend>LALInference</legend>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="LALInferenceText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            <fieldset>
+            <fieldset id="CED">
+                <legend>cWB CED</legend>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="CEDText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            <fieldset>
+            <fieldset id="LIBPE">
+                <legend>LIB Parameter Estimation</legend>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="LIBPEText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            <fieldset>
+            <fieldset id="BayesWavePE">
+                <legend>BayesWave ParameterEstimation</legend>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes:
+                        <br>
+                        <textarea name="BayesWavePEText" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+            <fieldset>
+        </div>
+
+        <hr>
+
+    </div>
+</body>
+
+</html>
