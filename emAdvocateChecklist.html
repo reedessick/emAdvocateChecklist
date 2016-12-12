@@ -21,6 +21,9 @@
             // grab all the fields from the various forms/input tags
             var graceid = $('#GraceIdValue').val();
 
+            var released = $('#Released').val();
+            var releasedText = $('#ReleasedText').html();
+
             /********** Emails *********/
 
             var adv = $('#EMAdvocateEmail').val();
@@ -218,27 +221,49 @@
             </div>
         </div>
         <hr>
-        <div class="container" id="Emails">
-            <div class="row">
-                <div class='col-md-3'>
-                    <strong>EM Advocate's email</strong>
-                    <br>
-                    <input type="text" name="EMAdvocateEmail" id="EMAdvocateEmail" value="">
+        <div class="container" id="distribution">
+            <fieldset id="distribution">
+                <legend>Distribution</legend>
+                <div class="row text-center">
+                    <div class='col-md-12'>
+                        <select name="Released" id="Released">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        <strong>Was this event released to EM Observers?</strong>
+                    </div>
                 </div>
-                <div class='col-md-3'>
-                    <strong>Hanford Run Coordinator's email</strong>
-                    <br>
-                    <input type="text" name="LHORunCoordinator" id="LHORunCoordinator" value="kawabe_k@ligo-wa.caltech.edu">
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <textarea name="ReleasedText" id="ReleasedText" rows="3" cols="43">Notes</textarea>
+                    </div>
                 </div>
-                <div class='col-md-3'>
-                    <strong>Livingston Run Coordinator's email</strong>
-                    <br>
-                    <input type="text" name="LLORunCoordinator" id="LLORunCoordinator" value="brian@ligo-la.caltech.edu">
+            </fieldset>
+            <fieldset id="emails">
+                <legend>Points of Contact</legend>
+                <div class="row">
+                    <div class='col-md-3'>
+                        <strong>EM Advocate's email</strong>
+                        <br>
+                        <input type="text" name="EMAdvocateEmail" id="EMAdvocateEmail" value="">
+                    </div>
+                    <div class='col-md-3'>
+                        <strong>Hanford Run Coordinator's email</strong>
+                        <br>
+                        <input type="text" name="LHORunCoordinator" id="LHORunCoordinator" value="kawabe_k@ligo-wa.caltech.edu">
+                    </div>
+                    <div class='col-md-3'>
+                        <strong>Livingston Run Coordinator's email</strong>
+                        <br>
+                        <input type="text" name="LLORunCoordinator" id="LLORunCoordinator" value="brian@ligo-la.caltech.edu">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" onclick="submitReport()" value="Submit Checklist">
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <input type="button" onclick="submitReport()" value="Submit Checklist">
-                </div>
-            </div>
+            </fieldset>
         </div>
         <hr>
         <div class="container" id="Humans">
