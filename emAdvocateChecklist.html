@@ -1,22 +1,34 @@
 <html lang="en">
 <head>
     <script type="text/javascript">
-        function goToESLog(){
-            window.open("https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+document.getElemenbById('GraceIdValue').value+".log");
+        function GDBURL(graceid){
+            return "https://gracedb.ligo.org/events/view/"+document.getElementById("GraceIdValue").value;
+        };
+        function ESLogURL(graceid){
+            return "https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+graceid+".log";
+        };
+        function LLDQURL(graceid){
+            return "https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value;
+        };
+        function OmegaScanURL(graceid, ifo){
+            return "https://ldas-jobs.ligo-"+ifo+".caltech.edu/~detchar/events/"+graceid+"/scans"
         };
         function goToGDB(){
-            window.open("https://gracedb.ligo.org/events/view/"+document.getElementById("GraceIdValue").value);
+            window.open(GDBURL(document.getElementById("GraceIdValue").value));
+        };
+        function goToESLog(){
+            window.open(ESLogURL(document.getElementById('GraceIdValue').value));
         };
         function goToLLDQ(){
-            window.open("https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value);
+            window.open(LLDQURL(document.getElementById("GraceIdValue").value));
         };
         function goToLHOOmegaScan(){
-            window.open("https://ldas-jobs.ligo-wa.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value+"/scans");
+            window.open(OmegaScanURL(document.getElementById("GraceIdValue").value, "wa"));
         };
         function goToLLOOmegaScan(){
-            window.open("https://ldas-jobs.ligo-la.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value+"/scans");
+            window.open(OmegaScanURL(document.getElementById("GraceIdValue").value, "la"));
         };
-        function submitReport(){
+        function downloadChecklist(){
             // format report
             var graceid;
             var select;
@@ -28,7 +40,7 @@
 
             select = document.getElementById("Released");
             report += "\nReleased  : "+select.options[select.selectedIndex].value;
-            report += "\n    "+document.getElementById("ReleasedText").html;
+            report += "\n    "+document.getElementById("ReleasedText").value;
            
             /********** Emails *********/
             report += "\n-------------------------"
@@ -53,11 +65,11 @@
             /********** Standard Links **********/
             report += "\n-------------------------"
 
-            report += "\nGraceDb        : https://gracedb.ligo.org/events/view/"+graceid;
-            report += "\nES Log         : https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+graceid+".log";
-            report += "\nLLDQ Report    : https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+graceid;
-            report += "\nLHO OmegaScans : https://ldas-jobs.ligo-wa.caltech.edu/~detchar/events/"+graceid+"/scans";
-            report += "\nLLO OmegaScans : https://ldas-jobs.ligo-la.caltech.edu/~detchar/events/"+graceid+"/scans";
+            report += "\nGraceDb        : "+GDBURL(graceid);
+            report += "\nES Log         : "+ESLogURL(graceid);
+            report += "\nLLDQ Report    : "+LLDQURL(graceid);
+            report += "\nLHO OmegaScans : "+OmegaScanURL(graceid, "wa");
+            report += "\nLLO OmegaScans : "+OmegaScanURL(graceid, "la");
 
             /********** Approval Processor *********/
             report += "\n-------------------------"
@@ -91,29 +103,29 @@
             select = document.getElementById('h1_llhoft_launched');
             report += "\nWas H1_llhoft OmegaScan launched?     : "+select.options[select.selectedIndex].value;
             select = document.getElementById('h1_llhoft_completed'); 
-            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('h1_r-reduced_launched');
             report += "\nWas H1_R Reduced OmegaScan launched?  : "+select.options[select.selectedIndex].value;
             select = document.getElementById('h1_r-reduced_completed');
-            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('h1_r-standard_launched');
             report += "\nWas H1_R Standard OmegaScan launched? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('h1_r-standard_completed');
-            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
             report += "\n    H1 OmegaScan Notes : "+document.getElementById('LHOOmegaScansText').value;
 
             select = document.getElementById('l1_llhoft_launched');
             report += "\nWas L1_llhoft OmegaScan launched?     : "+select.options[select.selectedIndex].value;
             select = document.getElementById('l1_llhoft_completed');
-            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('l1_r-reduced_launched');
             report += "\nWas L1_R Reduced OmegaScan launched?  : "+select.options[select.selectedIndex].value;
             select = document.getElementById('l1_r-reduced_completed');
-            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('l1_r-standard_launched');
             report += "\nWas L1_R Standard OmegaScan launched? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('l1_r-standard_completed');
-            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
             report += "\n    L1 OmegaScan Notes : "+document.getElementById('LLOOmegaScansText').value;
 
             /********** iDQ *********/
@@ -249,13 +261,8 @@
             report += "\nWere BayesWave's posteriors consistent with the search's estimates? : "+select.options[select.selectedIndex].value;
             report += "\n    "+document.getElementById('BWText').value;
 
-            // Format into a summary document
-
-            console.log(report);
-
-            console.log('NOT IMPLEMENTED: need to write data into a summary document. Simple (key : value) pairs will probalby suffice.');
-            console.log('NOT IMPLEMENTED: need to automatically download a copy of that document.');
-            console.log('NOT IMPLEMENTED: need to email a copy of the document to adv, llo, and lho email addresses. They will be responsible for poting to the EVNTLog and/or sending a copy to mailing lists.');
+            // open plain text representation in a new tab
+            window.open(window.URL.createObjectURL(new Blob([report], {type:"text/plain"})));
         };
     </script>
     <meta charset="utf-8">
@@ -355,7 +362,7 @@
                         <input type="text" name="LLORunCoordinator" id="LLORunCoordinator" value="brian@ligo-la.caltech.edu">
                     </div>
                     <div class="col-md-3">
-                        <input type="button" onclick="submitReport()" value="Submit Checklist">
+                        <input type="button" onclick="downloadChecklist()" value="Download Checklist">
                     </div>
                 </div>
             </fieldset>
@@ -1155,7 +1162,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <input type="button" onclick="submitReport()" value="Submit Checklist">
+                    <input type="button" onclick="downloadChecklist()" value="Download Checklist">
                     or <a href="">back to the top</a>.
                 </div>
             </div>
