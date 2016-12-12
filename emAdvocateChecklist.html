@@ -1,162 +1,257 @@
 <html lang="en">
 <head>
-    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         function goToESLog(){
-            window.open("https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+$('#GraceIdValue').val()+".log");
+            window.open("https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+document.getElemenbById('GraceIdValue').value+".log");
         };
         function goToGDB(){
-            window.open("https://gracedb.ligo.org/events/view/"+$('#GraceIdValue').val());
+            window.open("https://gracedb.ligo.org/events/view/"+document.getElementById("GraceIdValue").value);
         };
         function goToLLDQ(){
-            window.open("https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+$('#GraceIdValue').val());
+            window.open("https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value);
         };
         function goToLHOOmegaScan(){
-            window.open("https://ldas-jobs.ligo-wa.caltech.edu/~detchar/events/"+$('#GraceIdValue').val()+"/scans");
+            window.open("https://ldas-jobs.ligo-wa.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value+"/scans");
         };
         function goToLLOOmegaScan(){
-            window.open("https://ldas-jobs.ligo-la.caltech.edu/~detchar/events/"+graceid+"/scans");
+            window.open("https://ldas-jobs.ligo-la.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value+"/scans");
         };
         function submitReport(){
-            // grab all the fields from the various forms/input tags
-            var graceid = $('#GraceIdValue').val();
+            // format report
+            var graceid;
+            var select;
+            var report = "";
 
-            var released = $('#Released').val();
-            var releasedText = $('#ReleasedText').html();
+            // grab all the fields from the various forms/input tags and feed them into the report
+            graceid = document.getElementById("GraceIdValue").value;
+            report += "GraceId   : "+graceid;
 
+            select = document.getElementById("Released");
+            report += "\nReleased  : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById("ReleasedText").html;
+           
             /********** Emails *********/
+            report += "\n-------------------------"
 
-            var adv = $('#EMAdvocateEmail').val();
-            var llo = $('#LLORunCoordinator').val();
-            var lho = $('#LHORunCoordinator').val();
+            report += "\nEM ADV    : "+document.getElementById('EMAdvocateEmail').value;
+            report += "\nLHO Coord : "+document.getElementById('LHORunCoordinator').value;
+            report += "\nLLO Coord : "+document.getElementById('LLORunCoordinator').value;
 
             /********** Humans *********/
+            report += "\n----------"
 
-            var rrt = $('#RRT').val();
-            var rrtText = $('#RRTmembersText').html();
+            select = document.getElementById("RRT");
+            report += "\nRRT?             : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('RRTMembersText').value;
 
-            var pipeExp = $('#PipelineExpert').val();
-            var pipeExpText = $('#PipelineExpertText').html();
+            select = document.getElementById("PipelineExpert");
+            report += "\nPipeline Expert? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById("PipelineExpertText").value;
 
-            var attnText = $('#AttendenceText').html();
+            report +=  "\nAdditional Attendence :\n    "+document.getElementById("AttendenceText").value;
+
+            /********** Standard Links **********/
+            report += "\n-------------------------"
+
+            report += "\nGraceDb        : https://gracedb.ligo.org/events/view/"+graceid;
+            report += "\nES Log         : https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+graceid+".log";
+            report += "\nLLDQ Report    : https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+graceid;
+            report += "\nLHO OmegaScans : https://ldas-jobs.ligo-wa.caltech.edu/~detchar/events/"+graceid+"/scans";
+            report += "\nLLO OmegaScans : https://ldas-jobs.ligo-la.caltech.edu/~detchar/events/"+graceid+"/scans";
 
             /********** Approval Processor *********/
+            report += "\n-------------------------"
 
-            var apLabels = $('#ApprovalProcessorLabels').val();
-            var apAnnotate = $('#ApprovalProcessorAnnotate').val();
-            var apText = $('#ApprovalProcessorText').html()
+            select = document.getElementById('ApprovalProcessorLabels');
+            report += "\nDid AP label this event correctly? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('ApprovalProcessorAnnotate');
+            report += "\nDid AP annotate GraceDb?           : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('ApprovalProcessorText').value;
 
             /********** Event Supervisor *********/
 
-            var esLog = $('#EventSupervisorLog').val();
-            var esAnnotate = $('#EventSupervisorAnnotate').val();
-            var esText = $('#EventSupervisorText').html();
+            select = document.getElementById('EventSupervisorLog');
+            report += "\nDid ES create a log?               : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('EventSupervisorAnnotate');
+            report += "\nDid ES annotate GraceDb?           : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('EventSupervisorText').value;
 
             /********** LowLatency DQ Report *********/
+            report += "\n-------------------------"
 
-            var lldqGen = $('#LLDQReportGenerated').val();
-            var lldqAnnotate = $('#LLDQReportAnnotate').val();
-            var lldqText = $('#LLDQReportText').html();
+            select = document.getElementById('LLDQReportGenerated');
+            report += "\nWas LLDQ report generated? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LLDQReportAnnotate');
+            report += "\nWas LLDQ report posted?    : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('LLDQReportText').value;
 
             /********** OmegaScans *********/
+            report += "\n----------"
 
-            var h1_llhoft_launch = $('#h1_llhoft_launched').val();
-            var h1_llhoft_complt = $('#h1_llhoft_completed').val();
-            var h1_reducd_launch = $('#h1_r-reduced_launched').val();
-            var h1_reducd_complt = $('#h1_r-reduced_completed').val();
-            var h1_stndrd_launch = $('#h1_r-standard_launched').val();
-            var h1_stndrd_complt = $('#h1_r-standard_completed').val();
-            var h1_omegascanText = $('#LHOOmegaScansText').html()
+            select = document.getElementById('h1_llhoft_launched');
+            report += "\nWas H1_llhoft OmegaScan launched?     : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_llhoft_completed'); 
+            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-reduced_launched');
+            report += "\nWas H1_R Reduced OmegaScan launched?  : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-reduced_completed');
+            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-standard_launched');
+            report += "\nWas H1_R Standard OmegaScan launched? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-standard_completed');
+            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n    H1 OmegaScan Notes : "+document.getElementById('LHOOmegaScansText').value;
 
-            var l1_llhoft_launch = $('#l1_llhoft_launched').val();
-            var l1_llhoft_complt = $('#l1_llhoft_completed').val();
-            var l1_reducd_launch = $('#l1_r-reduced_launched').val();
-            var l1_reducd_complt = $('#l1_r-reduced_completed').val();
-            var l1_stndrd_launch = $('#l1_r-standard_launched').val();
-            var l1_stndrd_complt = $('#l1_r-standard_completed').val();
-            var l1_omegascanText = $('#LLOOmegaScansText').html()
+            select = document.getElementById('l1_llhoft_launched');
+            report += "\nWas L1_llhoft OmegaScan launched?     : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_llhoft_completed');
+            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-reduced_launched');
+            report += "\nWas L1_R Reduced OmegaScan launched?  : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-reduced_completed');
+            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-standard_launched');
+            report += "\nWas L1_R Standard OmegaScan launched? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-standard_completed');
+            report += "\n    did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n    L1 OmegaScan Notes : "+document.getElementById('LLOOmegaScansText').value;
 
             /********** iDQ *********/
+            report += "\n--------"
 
-            var idq_lho_glitches = $('#idq_lho_glitches').val();
-            var idq_lho_fap = $('#idq_lho_fap').val();
-            var idq_lho_timeseries = $('#idq_lho_timeseries').val();
-            var idq_lho_chans = $('#idq_lho_chans').val();
-            var idq_lho_calib = $('#idq_lho_calib').val();
-            var idq_lho_roc = $('#idq_lho_roc').val();
-            var idq_lhoText = $('#idq_lho_text').html();
+            select = document.getElementById('idq_lho_glitches');
+            report += "\nDid iDQ find glitches at LHO?             : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_fap');
+            report += "\nDid iDQ upload a minimum FAP from LHO?    : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_timeseries');
+            report += "\nDid iDQ upload a FAP timeseries from LHO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_chans');
+            report += "\nDid iDQ upload possibly correlated channels from LHO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_calib');
+            report += "\nDid iDQ upload measurements of the local FAP Calibration from LHO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_roc');
+            report += "\nDid iDQ upload measurements of the local ROC curve from LHO?       : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('idq_lho_text').value;
 
-            var idq_llo_glitches = $('#idq_llo_glitches').val();
-            var idq_llo_fap = $('#idq_llo_fap').val();
-            var idq_llo_timeseries = $('#idq_llo_timeseries').val();
-            var idq_llo_chans = $('#idq_llo_chans').val();
-            var idq_llo_calib = $('#idq_llo_calib').val();
-            var idq_llo_roc = $('#idq_llo_roc').val();
-            var idq_lloText = $('#idq_llo_text').html();
+            select = document.getElementById('idq_llo_glitches');
+            report += "\nDid iDQ find glitches at LLO?             : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_fap');
+            report += "\nDid iDQ upload a minimum FAP from LLO?    : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_timeseries');
+            report += "\nDid iDQ upload a FAP timeseries from LLO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_chans');
+            report += "\nDid iDQ upload possibly correlated channels from LLO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_calib');
+            report += "\nDid iDQ upload measurements of the local FAP Calibration from LLO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_roc');
+            report += "\nDid iDQ upload measurements of the local ROC curve from LLO?       : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('idq_llo_text').value;
 
             /********** Data Quality Flags *********/
+            report += "\n----------"
 
-            var dqFlagsUploaded = $('#DQFlagsUploaded').val();
-            var dqFlagsActiveText = $('#DQFlagsActiveText').html();
-            var dqFlagsInactiveText = $('#DQFlagsInactiveText').html();
+            select = document.getElementById('DQFlagsUploaded');
+            report += "\nWere Data Quality Flags Uploaded? : "+select.options[select.selectedIndex].value;
+            report += "\nWhich flags were active? : "+document.getElementById('DQFlagsActiveText').value;
+            report += "\nWhich flags were inactive? : "+document.getElementById('DQFlagsInactiveText').value;
 
             /********** Bayestar *********/
+            report += "\n-------------------------"
 
-            var bayestarSkymap = $('#BayestarStart').val();
-            var bayestarSkymapSummary = $('#BayestarSkymapSummary').val();
-            var bayestarSkymapSanity = $('#BayestarSkymapSanity').val();
-            var bayestarText = $('#BayestarText').html();
+            select = document.getElementById('BayestarSkymap');
+            report += "\nDid Bayestar upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BayestarSkymapSummary');
+            report += "\nWas a skymap summary page generated for Bayestar? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BayestarSkymapSanity');
+            report += "\nDid Bayestar's skymap look reasonable? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('BayestarText').value;
 
             /********** EM Bright *********/
 
-            var embrightUploaded = $('#EMBrightUploaded').val();
-            var embrightPointEstimate = $('#EMBrightPointEstimate').val();
-            var embrightVOEvent = $('#EMBrightVOEvent').val();
-            var embrightText = $('#EMBrightText').html();
+            report += "\n----------"
+            select = document.getElementById('EMBrightUploaded');
+            report += "\nWere EM Bright probabilities uploaded? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('EMBrightPointEstimate');
+            report += "\nDid the EM Bright classifier use a point estimate? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('EMBrightVOEvent');
+            report += "\nWas EM Bright information included in a VOEvent? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('EMBrightText').value;
 
             /********** LALInference *********/
+            report += "\n----------"
 
-            var lalinfStart = $('#LALInfStart').val();
-            var lalinfSkymap = $('#LALInfSkymap').val();
-            var lalinfSkymapSummary = $('#LALInfSkymapSummary').val();
-            var lalinfSkymapSanity = $('#LALInfSkymapSanity').val();
-            var lalinfPostSamp = $('#LALInfPostSamp').val();
-            var lalinfPostSanity = $('#LALInfPostSanity').val();
-            var lalinfConsistency = $('#LALInfConsistency').val();
-            var lalinfText = $('#LALInfText').html();
+            select = document.getElementById('LALInfStart');
+            report += "\nDid LALInf star? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LALInfSkymap');
+            report += "\nDid LALInf upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LALInfSkymapSummary');
+            report += "\nWas a skymap summary page generated for LALInf? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LALInfSkymapSanity');
+            report += "\nDid LALInf's skymap look reasonable? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LALInfPostSamp');
+            report += "\nDid LALInf upload posterior samples? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LALInfPostSanity');
+            report += "\nDid LALInf's posterior samples look reasonable? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LALInfConsistency');
+            report += "\nWere LALInf's posteriors consistent with the search's estimate? : "+select.options[select.selectedIndex].value; 
+            report += "\n    "+document.getElementById('LALInfText').value;
 
             /********** cWB *********/
+            report += "\n----------"
 
-            var ced = $('#CED').val();
-            var cwbSkymap = $('#cWBSkymap').val();
-            var cwbSkymapSummary = $('#cWBSkymapSummary').val();
-            var cwbSkymapSanity = $('#cWBSkymapSanity').val();
-            var cwbText = $('#cWBText').html();
+            select = document.getElementById('CED');
+            report += "\nDid cWB upload a CED? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('cWBSkymap');
+            report += "\nDid cWB upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('cWBSkymapSummary');
+            report += "\nWas a skymap summary page generated for cWB? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('cWBSkymapSanity');
+            report += "\nDid cWB's skymap look resonable? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('cWBText').value;
 
             /********** LIB *********/
+            report += "\n----------"
 
-            var libStart = $('#LIBStart').val();
-            var libSkymap = $('#LIBSkymap').val();
-            var libSkymapSummary = $('#LIBSkymapSummary').val();
-            var libSkymapSanity = $('#LIBSkymapSanity').val();
-            var libBayesFactUploaded = $('#LIBBayesFactUploaded').val();
-            var libBayesFactPostive = $('#LIBBayesFactPositive').val();
-            var libConsistency = $('#LIBConsistency').val();
-            var libPostSamp = $('#LIBPostSamp').val();
-            var libText = $('#LIBText').html();
+            select = document.getElementById('LIBStart');
+            report += "\nDid LIB start? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBSkymap');
+            report += "\nDid LIB upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBSkymapSummary');
+            report += "\nWas a skymap summary page generated for LIB? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBSkymapSanity');
+            report += "\nDid LIB's skymap look reasonable? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBBayesFactUploaded');
+            report += "\nDid LIB upload Bayes Factors? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBBayesFactPositive');
+            report += "\nWere LIB's Bayes Factors positive? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBConsistency');
+            report += "\nWere LIB's posteriors consistent with the search's estimates? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBPostSamp');
+            report += "\nDid LIB upload posterior samples? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('LIBText').value;
 
             /********** BayesWave *********/
+            report += "\n----------"
 
-            var bwStart = $('#BWStart').val();
-            var bwSkymap = $('#BWSkymap').val();
-            var bwSkymapSummary = $('#BWSkymapSummary').val();
-            var bwSkymapSanity = $('#BWSkymapSanity').val();
-            var bwBayesFactUploaded = $('#BWBayesFactUploaded').val();
-            var bwBayesFactPositive = $('#BWBayesFactPositive').val();
-            var bwConsistency = $('#BWConsistency').val();
-            var bwText = $('#BWText').html();
+            select = document.getElementById('BWStart');
+            report += "\nDid BayesWave start? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWSkymap');
+            report += "\nDid BayesWave upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWSkymapSummary');
+            report += "\nWas a skymap summary page generated for BayesWave? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWSkymapSanity');
+            report += "\nDid BayesWave's skymap look reasonable? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWBayesFactUploaded');
+            report += "\nDid BayesWave upload Bayes Factors? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWBayesFactPositive');
+            report += "\nWere BayesWave's Bayes Factors positive? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWConsistency');
+            report += "\nWere BayesWave's posteriors consistent with the search's estimates? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('BWText').value;
 
             // Format into a summary document
+
+            console.log(report);
 
             console.log('NOT IMPLEMENTED: need to write data into a summary document. Simple (key : value) pairs will probalby suffice.');
             console.log('NOT IMPLEMENTED: need to automatically download a copy of that document.');
@@ -222,7 +317,7 @@
         </div>
         <hr>
         <div class="container" id="distribution">
-            <fieldset id="distribution">
+            <fieldset id="distributionFieldset">
                 <legend>Distribution</legend>
                 <div class="row text-center">
                     <div class='col-md-12'>
@@ -241,7 +336,7 @@
                     </div>
                 </div>
             </fieldset>
-            <fieldset id="emails">
+            <fieldset id="emailsFieldset">
                 <legend>Points of Contact</legend>
                 <div class="row">
                     <div class='col-md-3'>
@@ -268,7 +363,7 @@
         <hr>
         <div class="container" id="Humans">
             <a href=""><h2>Humans</h2></a>
-            <fieldset id="HumansField">
+            <fieldset id="HumansFieldset">
                 <div class="row">
                     <div class='col-md-6'>
                         <select name="RRT" id="RRT">
@@ -309,7 +404,7 @@
         <hr>
         <div class="container" id="ApprovalProcessor">
             <a href=""><h2>Approval Processor</h2></a>
-            <fieldset id="ApprovalProcessorField">
+            <fieldset id="ApprovalProcessorFieldset">
                 <div class="row">
                     <div class='col-md-6'>
                         <select name="ApprovalProcessorLabels" id="ApprovalProcessorLabels">
@@ -340,7 +435,7 @@
         <hr>
         <div class="container" id="EventSupervisor">
             <a href=""><h2>Event Supervisor</h2></a>
-            <fieldset id="EventSupervisorField">
+            <fieldset id="EventSupervisorFieldset">
                 <div class="row">
                     <div class="col-md-6">
                         <select name="EventSupervisorLog" id="EventSupervisorLog">
@@ -371,7 +466,7 @@
         <hr>
         <div class="container" id="DataQuality">
             <a href=""><h2>Data Quality</h2></a>
-            <fieldset id="LLDQReport">
+            <fieldset id="LLDQReportFieldset">
                 <legend>LLDQ Report</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -399,7 +494,7 @@
                     </div>
                 </div>
             </fieldset>
-            <fieldset id="OmegaScansField">
+            <fieldset id="OmegaScansFieldset">
                 <legend>Omega Scans</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -524,7 +619,7 @@
                     </div>
                 </div>
             </fieldset>
-            <fieldset id="iDQ">
+            <fieldset id="iDQFieldset">
                 <legend>iDQ</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -645,7 +740,7 @@
                     </div>
                 </div>
             </fieldset>
-            <fieldset id="DQFlags">
+            <fieldset id="DQFlagsFieldset">
                 <legend>DQ Flags</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -675,7 +770,7 @@
         <hr>
         <div class="container" id="ParameterEstimation">
             <a href=""><h2>Parameter Estimation</h2></a>
-            <fieldset id="Bayestar">
+            <fieldset id="BayestarFieldset">
                 <legend>Bayestar</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -714,8 +809,8 @@
                         <textarea name="BayestarText" id="BayestarText" rows="3" cols="50">Notes</textarea>
                     </div>
                 </div>
-            <fieldset>
-            <fieldset id="EMBright">
+            </fieldset>
+            <fieldset id="EMBrightFieldset">
                 <legend>EM Bright Classification</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -754,8 +849,8 @@
                         <textarea name="EMBrightText" id="EMBrightText" rows="3" cols="50">Notes (including which VOEvents contain EM Bright information)</textarea>
                     </div>
                 </div>
-            <fieldset>
-            <fieldset id="LALInference">
+            </fieldset>
+            <fieldset id="LALInferenceFieldset">
                 <legend>LALInference</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -834,8 +929,8 @@
                         <textarea name="LALInfText" id="LALInfText" rows="3" cols="50">Notes</textarea>
                     </div>
                 </div>
-            <fieldset>
-            <fieldset id="CED">
+            </fieldset>
+            <fieldset id="CEDFieldset">
                 <legend>cWB CED</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -881,11 +976,11 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="CEDText" id="CEDText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="cWBText" id="cWBText" rows="3" cols="50">Notes</textarea>
                     </div>
                 </div>
-            <fieldset>
-            <fieldset id="LIBPE">
+            </fieldset>
+            <fieldset id="LIBPEFieldset">
                 <legend>LIB Parameter Estimation</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -974,8 +1069,8 @@
                         <textarea name="LIBText" id="LIBText" rows="3" cols="50">Notes</textarea>
                     </div>
                 </div>
-            <fieldset>
-            <fieldset id="BayesWavePE">
+            </fieldset>
+            <fieldset id="BayesWavePEFieldset">
                 <legend>BayesWave ParameterEstimation</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -1054,7 +1149,7 @@
                         <textarea name="BWText" id="BWText" rows="3" cols="50">Notes</textarea>
                     </div>
                 </div>
-            <fieldset>
+            </fieldset>
         </div>
         <hr>
         <div class="container">
