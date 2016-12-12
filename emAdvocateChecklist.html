@@ -28,6 +28,7 @@
         function goToLLOOmegaScan(){
             window.open(OmegaScanURL(document.getElementById("GraceIdValue").value, "la"));
         };
+        var checklist = null;
         function downloadChecklist(){
             // format report
             var graceid;
@@ -262,7 +263,11 @@
             report += "\n    "+document.getElementById('BWText').value;
 
             // open plain text representation in a new tab
-            window.open(window.URL.createObjectURL(new Blob([report], {type:"text/plain"})));
+            if (checklist != null) {
+                window.URL.revokeObjectURL(checklist); // do this to avoid a memory leak
+            }
+            checklist = window.URL.createObjectURL(new Blob([report], {type:"text/plain"}));
+            window.open(checklist);
         };
     </script>
     <meta charset="utf-8">
@@ -298,7 +303,7 @@
         </nav>
         <hr>
         <div class="container" id="header">
-            <a href=""><h1>EM Advocate Checklist</h1></a>
+            <a href="#"><h1>EM Advocate Checklist</h1></a>
         </div>
         <div class="container" id="GraceId">
             <div class="row text-center">
@@ -369,7 +374,7 @@
         </div>
         <hr>
         <div class="container" id="Humans">
-            <a href=""><h2>Humans</h2></a>
+            <a href="#"><h2>Humans</h2></a>
             <fieldset id="HumansFieldset">
                 <div class="row">
                     <div class='col-md-6'>
@@ -410,7 +415,7 @@
         </div>
         <hr>
         <div class="container" id="ApprovalProcessor">
-            <a href=""><h2>Approval Processor</h2></a>
+            <a href="#"><h2>Approval Processor</h2></a>
             <fieldset id="ApprovalProcessorFieldset">
                 <div class="row">
                     <div class='col-md-6'>
@@ -441,7 +446,7 @@
         </div>
         <hr>
         <div class="container" id="EventSupervisor">
-            <a href=""><h2>Event Supervisor</h2></a>
+            <a href="#"><h2>Event Supervisor</h2></a>
             <fieldset id="EventSupervisorFieldset">
                 <div class="row">
                     <div class="col-md-6">
@@ -472,7 +477,7 @@
         </div>
         <hr>
         <div class="container" id="DataQuality">
-            <a href=""><h2>Data Quality</h2></a>
+            <a href="#"><h2>Data Quality</h2></a>
             <fieldset id="LLDQReportFieldset">
                 <legend>LLDQ Report</legend>
                 <div class="row">
@@ -776,7 +781,7 @@
         </div>
         <hr>
         <div class="container" id="ParameterEstimation">
-            <a href=""><h2>Parameter Estimation</h2></a>
+            <a href="#"><h2>Parameter Estimation</h2></a>
             <fieldset id="BayestarFieldset">
                 <legend>Bayestar</legend>
                 <div class="row">
@@ -1163,7 +1168,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <input type="button" onclick="downloadChecklist()" value="Download Checklist">
-                    or <a href="">back to the top</a>.
+                    or <a href="#">back to the top</a>.
                 </div>
             </div>
         </div>
