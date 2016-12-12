@@ -16,6 +16,15 @@
             var graceid = $('#GraceIdValue').val();
             window.open("https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+graceid);
         };
+        function submitReport(){
+            var adv = $('#EMAdvocateEmail').val();
+            var llo = $('#LLORunCoordinator').val();
+            var lho = $('#LHORunCoordinator').val();
+
+            // extract information from form and stick it into a txt file
+            // save a copy of that file
+            // email it to "adv", "llo", and "lho" email addresses
+        };
     </script>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -62,7 +71,7 @@
 
         <div class="container" id="GraceId">
             <div class="row">
-                <div class='col-md-5'>
+                <div class="col-md-7">
                     <strong><input type="text" name="graceid" id="GraceIdValue" value="GraceId"></strong>
                 </div>
             </div>
@@ -97,6 +106,9 @@
                     <strong>Hanford Run Coordinator's email</strong>
                     <br>
                     <input type="text" name="LHORunCoordinator" id="LHORunCoordinator" value="kawabe_k@ligo-wa.caltech.edu">
+                </div>
+                <div class="col-md-3">
+                    <input type="button" onclick="submitReport()" value="Submit Checklist (currently does nothing)">
                 </div>
             </div>
         </div>
@@ -361,8 +373,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class='col-md-6'>
-                        Notes:
+                    <div class="col-md-6">
+                        Did any OmegaScans suggest unusual behavior? If so, which channels?
                         <br>
                         <textarea name="OmegaScansText" rows="3" cols="50"></textarea>
                     </div>
@@ -371,6 +383,24 @@
             <fieldset id="iDQ">
                 <legend>iDQ</legend>
                 <div class="row">
+                    <div class="col-md-6">
+timeseries plots?
+                    </div>
+                    <div class="col-md-6">
+min FAP statements?
+                    </div>
+                    <div class="col-md-6">
+active channel plots?
+                    </div>
+                    <div class="col-md-6">
+local FAP calibration?
+                    </div>
+                    <div class="col-md-6">
+local ROC curves?
+                    </div>
+                    <div class="col-md-6">
+Did iDQ find evidence for glitches in the neighborhood of this event?
+                    </div>
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
@@ -383,7 +413,18 @@
             <fieldset id="DQFlags">
                 <legend>DQ Flags</legend>
                 <div class="row">
-                    <div class='col-md-6'>
+                    <div class="col-md-6">
+Were all flags uploaded as expected?
+                    </div>
+                    <div class="col-md-6">
+Any flags active around the event?
+                    </div>
+                    <div class="col-md-6">
+Any flags inactive around the event?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
                         Notes:
                         <br>
                         <textarea name="DQFlagsText" rows="3" cols="50"></textarea>
@@ -399,6 +440,17 @@
             <fieldset id="Bayestar">
                 <legend>Bayestar</legend>
                 <div class="row">
+                    <div class="col-md-6">
+Did Bayestar upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                </div>
+                <div class="row">
                     <div class='col-md-6'>
                         Notes:
                         <br>
@@ -408,6 +460,17 @@
             <fieldset>
             <fieldset id="EMBright">
                 <legend>EM Bright Classification</legend>
+                <div class="row">
+                    <div class="col-md-6">
+Did the EM Bright classifier run as expected?
+                    </div>
+                    <div class="col-md-6">
+Did the classifier use a point estimate?
+                    </div>
+                    <div class="col-md-6">
+Was the classifier's information included in a VOEvent?
+                    </div>
+                </div>
                 <div class="row">
                     <div class='col-md-6'>
                         Notes:
@@ -419,6 +482,29 @@
             <fieldset id="LALInference">
                 <legend>LALInference</legend>
                 <div class="row">
+                    <div class="col-md-6">
+Did LALInference start as expected?
+                    </div>
+                    <div class="col-md-6">
+Did LALInference upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                    <div class="col-md-6">
+Did LALInference upload posterior samples and corner plots?
+                    </div>
+                    <div class="col-md-6">
+Did the posterior samples and corner plots look reasonable?
+                    </div>
+                    <div class="col-md-6">
+Were LALInference's posteriors consistent with the detection pipeline's point estimates?
+                    </div>
+                </div>
+                <div class="row">
                     <div class='col-md-6'>
                         Notes:
                         <br>
@@ -428,6 +514,20 @@
             <fieldset>
             <fieldset id="CED">
                 <legend>cWB CED</legend>
+                <div class="row">
+                    <div class="col-md-6">
+Did cWB post a link to a CED page?
+                    </div>
+                    <div class="col-md-6">
+Did cWB upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                </div>
                 <div class="row">
                     <div class='col-md-6'>
                         Notes:
@@ -439,6 +539,32 @@
             <fieldset id="LIBPE">
                 <legend>LIB Parameter Estimation</legend>
                 <div class="row">
+                    <div class="col-md-6">
+Did LIB Parameter Estimation start as expected?
+                    </div>
+                    <div class="col-md-6">
+Did LIB upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                    <div class="col-md-6">
+Did LIB upload Bayes Factors?
+                    </div>
+                    <div class="col-md-6">
+Were LIB's Bayes Factors positive?
+                    </div>
+                    <div class="col-md-6">
+Were LIB's paramters consistent with the detection pipeline's estimates?
+                    </div>
+                    <div class="col-md-6">
+Did LIB upload posterior samples?
+                    </div>
+                </div>
+                <div class="row">
                     <div class='col-md-6'>
                         Notes:
                         <br>
@@ -448,6 +574,29 @@
             <fieldset>
             <fieldset id="BayesWavePE">
                 <legend>BayesWave ParameterEstimation</legend>
+                <div class="row">
+                    <div class="col-md-6">
+Did BayesWave start as expected?
+                    </div>
+                    <div class="col-md-6">
+Did BayesWave upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                    <div class="col-md-6">
+Did BayesWave upload Bayes Factors?
+                    </div>
+                    <div class="col-md-6">
+Were BayesWave's Bayes Factors positive?
+                    </div>
+                    <div class="col-md-6">
+Were BayesWave's paramters consistent with the detection pipeline's estimates?
+                    </div>
+                </div>
                 <div class="row">
                     <div class='col-md-6'>
                         Notes:
