@@ -144,7 +144,7 @@
             report += "\nDid iDQ upload measurements of the local FAP Calibration from LHO? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('idq_lho_roc');
             report += "\nDid iDQ upload measurements of the local ROC curve from LHO?       : "+select.options[select.selectedIndex].value;
-            report += "\n    "+document.getElementById('idq_lho_text').value;
+            report += "\n    LHO iDQ Notes : "+document.getElementById('idq_lho_text').value;
 
             select = document.getElementById('idq_llo_glitches');
             report += "\nDid iDQ find glitches at LLO?             : "+select.options[select.selectedIndex].value;
@@ -158,7 +158,7 @@
             report += "\nDid iDQ upload measurements of the local FAP Calibration from LLO? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('idq_llo_roc');
             report += "\nDid iDQ upload measurements of the local ROC curve from LLO?       : "+select.options[select.selectedIndex].value;
-            report += "\n    "+document.getElementById('idq_llo_text').value;
+            report += "\n    LLO iDQ Notes : "+document.getElementById('idq_llo_text').value;
 
             /********** Data Quality Flags *********/
             report += "\n----------"
@@ -261,6 +261,11 @@
             select = document.getElementById('BWConsistency');
             report += "\nWere BayesWave's posteriors consistent with the search's estimates? : "+select.options[select.selectedIndex].value;
             report += "\n    "+document.getElementById('BWText').value;
+
+            /********** date page was generated **********/
+            report += "\n-------------------------"
+
+            report += "\ngenerated "+new Date().toUTCString();
 
             // open plain text representation in a new tab
             if (checklist != null) {
@@ -387,7 +392,7 @@
                         Did a member of the DetChar RRT look at this event?
                     </div>
                     <div class='col-md-6'>
-                        <textarea name="RRTMembersText" id="RRTMembersText" rows="3" cols="50">Names of RRT members</textarea>
+                        <textarea name="RRTMembersText" id="RRTMembersText" rows="3" cols="43">Names of RRT members</textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -401,14 +406,14 @@
                         Did a pipeline expert look at this event?
                     </div>
                     <div class='col-md-6'>
-                        <textarea name="PipelineExpertText" id="PipelineExpertText" rows="3" cols="50">Names of pipline experts</textarea>
+                        <textarea name="PipelineExpertText" id="PipelineExpertText" rows="3" cols="43">Names of pipline experts</textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
                         Did anyone else look at this event?
                         <br>
-                        <textarea name="AttendanceText" id="AttendenceText" rows="3" cols="50">Names of analysts</textarea>
+                        <textarea name="AttendanceText" id="AttendenceText" rows="3" cols="43">Names of analysts</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -439,7 +444,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-5'>
-                        <textarea name="ApprovalProcessorText" id="ApprovalProcessorText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="ApprovalProcessorText" id="ApprovalProcessorText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -470,7 +475,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="EventSupervisorText" id="EventSupervisorText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="EventSupervisorText" id="EventSupervisorText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -502,7 +507,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <textarea name="LLDQReportText" id="LLDQReportText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="LLDQReportText" id="LLDQReportText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -622,12 +627,12 @@
                     <div class="col-md-6">
                         Did any <strong>Hanford</strong> OmegaScans suggest unusual behavior? If so, which channels?
                         <br>
-                        <textarea name="LHOOmegaScansText" id="LHOOmegaScansText" rows="3" cols="50"></textarea>
+                        <textarea name="LHOOmegaScansText" id="LHOOmegaScansText" rows="3" cols="43"></textarea>
                     </div>
                     <div class="col-md-6">
                         Did any <strong>Livingston</strong> OmegaScans suggest unusual behavior? If so, which channels?
                         <br>
-                        <textarea name="LLOOmegaScansText" id="LLOOmegaScansText" rows="3" cols="50"></textarea>
+                        <textarea name="LLOOmegaScansText" id="LLOOmegaScansText" rows="3" cols="43"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -745,10 +750,14 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="idq_lho_text" id="idq_lho_text" rows="3" cols="50">Notes about iDQ information from <strong>Hanford</strong></textarea>
+                        Notes about iDQ information from <strong>Hanford</strong>
+                        <br>
+                        <textarea name="idq_lho_text" id="idq_lho_text" rows="3" cols="43"></textarea>
                     </div>
                     <div class='col-md-6'>
-                        <textarea name="idq_llo_text" id="idq_llo_text" rows="3" cols="50">Notes about iDQ information from <strong>Livingston</strong></textarea>
+                        Notes about iDQ information from <strong>Livingston</strong>
+                        <br>
+                        <textarea name="idq_llo_text" id="idq_llo_text" rows="3" cols="43"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -769,12 +778,12 @@
                     <div class="col-md-6">
                         Which flags were active around the event?
                         <br>
-                        <textarea name="DQFlagsActiveText" id="DQFlagsActiveText" rows="3" cols="50"></textarea>
+                        <textarea name="DQFlagsActiveText" id="DQFlagsActiveText" rows="3" cols="43"></textarea>
                     </div>
                     <div class="col-md-6">
                         Which flags were inactive around the event?
                         <br>
-                        <textarea name="DQFlagsInactiveText" id="DQFlagsInactiveText" rows="3" cols="50"></textarea>
+                        <textarea name="DQFlagsInactiveText" id="DQFlagsInactiveText" rows="3" cols="43"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -818,7 +827,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="BayestarText" id="BayestarText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="BayestarText" id="BayestarText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -858,7 +867,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="EMBrightText" id="EMBrightText" rows="3" cols="50">Notes (including which VOEvents contain EM Bright information)</textarea>
+                        <textarea name="EMBrightText" id="EMBrightText" rows="3" cols="43">Notes (including which VOEvents contain EM Bright information)</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -938,7 +947,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="LALInfText" id="LALInfText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="LALInfText" id="LALInfText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -988,7 +997,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="cWBText" id="cWBText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="cWBText" id="cWBText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -1078,7 +1087,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="LIBText" id="LIBText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="LIBText" id="LIBText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
@@ -1158,7 +1167,7 @@
                 </div>
                 <div class="row">
                     <div class='col-md-6'>
-                        <textarea name="BWText" id="BWText" rows="3" cols="50">Notes</textarea>
+                        <textarea name="BWText" id="BWText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
             </fieldset>
