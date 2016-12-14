@@ -273,6 +273,9 @@
             }
             checklist = window.URL.createObjectURL(new Blob([report], {type:"text/plain"}));
             window.open(checklist);
+
+            // open an alert with instructions on how to proceed
+            window.alert('A plain text representation of your responses will appear in a new tab. Please save a copy of them and post them to the EVNT Log.\nDo not navigate away from this page before you\'ve done so or your responses may be lost.');
         };
     </script>
     <meta charset="utf-8">
