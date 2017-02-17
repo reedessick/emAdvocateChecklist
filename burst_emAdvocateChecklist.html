@@ -1,0 +1,995 @@
+<html lang="en">
+<head>
+    <script type="text/javascript">
+        function GDBURL(graceid){
+            return "https://gracedb.ligo.org/events/view/"+document.getElementById("GraceIdValue").value;
+        };
+        function ESLogURL(graceid){
+            return "https://ldas-jobs.ligo.caltech.edu/~gracedb.processor/users/ressick/lvalertMP-testing/log/"+graceid+".log";
+        };
+        function LLDQURL(graceid){
+            return "https://ldas-jobs.ligo.caltech.edu/~detchar/events/"+document.getElementById("GraceIdValue").value;
+        };
+        function OmegaScanURL(graceid, ifo){
+            return "https://ldas-jobs.ligo-"+ifo+".caltech.edu/~detchar/events/"+graceid+"/scans"
+        };
+        function goToGDB(){
+            window.open(GDBURL(document.getElementById("GraceIdValue").value));
+        };
+        function goToESLog(){
+            window.open(ESLogURL(document.getElementById('GraceIdValue').value));
+        };
+        function goToLLDQ(){
+            window.open(LLDQURL(document.getElementById("GraceIdValue").value));
+        };
+        function goToLHOOmegaScan(){
+            window.open(OmegaScanURL(document.getElementById("GraceIdValue").value, "wa"));
+        };
+        function goToLLOOmegaScan(){
+            window.open(OmegaScanURL(document.getElementById("GraceIdValue").value, "la"));
+        };
+        var checklist = null;
+        function downloadChecklist(){
+            // format report
+            var graceid;
+            var select;
+            var report = "";
+
+            // grab all the fields from the various forms/input tags and feed them into the report
+            graceid = document.getElementById("GraceIdValue").value;
+            report += "GraceId   : "+graceid;
+
+            select = document.getElementById("Released");
+            report += "\nReleased  : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById("ReleasedText").value;
+           
+            /********** Emails *********/
+            report += "\n-------------------------"
+
+            report += "\nEM ADV    : "+document.getElementById('EMAdvocateEmail').value;
+            report += "\nLHO Coord : "+document.getElementById('LHORunCoordinator').value;
+            report += "\nLLO Coord : "+document.getElementById('LLORunCoordinator').value;
+
+            /********** Humans *********/
+            report += "\n----------"
+
+            select = document.getElementById("RRT");
+            report += "\nRRT?             : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('RRTMembersText').value;
+
+            select = document.getElementById("PipelineExpert");
+            report += "\nPipeline Expert? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById("PipelineExpertText").value;
+
+            report +=  "\nAdditional Attendence :\n    "+document.getElementById("AttendenceText").value;
+
+            /********** Standard Links **********/
+            report += "\n-------------------------"
+
+            report += "\nGraceDb        : "+GDBURL(graceid);
+            report += "\nES Log         : "+ESLogURL(graceid);
+            report += "\nLLDQ Report    : "+LLDQURL(graceid);
+            report += "\nLHO OmegaScans : "+OmegaScanURL(graceid, "wa");
+            report += "\nLLO OmegaScans : "+OmegaScanURL(graceid, "la");
+
+            /********** Approval Processor *********/
+            report += "\n-------------------------"
+
+            select = document.getElementById('ApprovalProcessorLabels');
+            report += "\nDid AP label this event correctly? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('ApprovalProcessorAnnotate');
+            report += "\nDid AP annotate GraceDb?           : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('ApprovalProcessorText').value;
+
+            /********** Event Supervisor *********/
+
+            select = document.getElementById('EventSupervisorLog');
+            report += "\nDid ES create a log?               : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('EventSupervisorAnnotate');
+            report += "\nDid ES annotate GraceDb?           : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('EventSupervisorText').value;
+
+            /********** LowLatency DQ Report *********/
+            report += "\n-------------------------"
+
+            select = document.getElementById('LLDQReportGenerated');
+            report += "\nWas LLDQ report generated? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LLDQReportAnnotate');
+            report += "\nWas LLDQ report posted?    : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('LLDQReportText').value;
+
+            /********** OmegaScans *********/
+            report += "\n----------"
+
+            select = document.getElementById('h1_llhoft_launched');
+            report += "\nWas H1_llhoft OmegaScan launched?     : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_llhoft_completed'); 
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-reduced_launched');
+            report += "\nWas H1_R Reduced OmegaScan launched?  : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-reduced_completed');
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-standard_launched');
+            report += "\nWas H1_R Standard OmegaScan launched? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('h1_r-standard_completed');
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n    H1 OmegaScan Notes : "+document.getElementById('LHOOmegaScansText').value;
+
+            select = document.getElementById('l1_llhoft_launched');
+            report += "\nWas L1_llhoft OmegaScan launched?     : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_llhoft_completed');
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-reduced_launched');
+            report += "\nWas L1_R Reduced OmegaScan launched?  : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-reduced_completed');
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-standard_launched');
+            report += "\nWas L1_R Standard OmegaScan launched? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('l1_r-standard_completed');
+            report += "\n        did it complete? : "+select.options[select.selectedIndex].value;
+            report += "\n    L1 OmegaScan Notes : "+document.getElementById('LLOOmegaScansText').value;
+
+            /********** iDQ *********/
+            report += "\n--------"
+
+            select = document.getElementById('idq_lho_glitches');
+            report += "\nDid iDQ find glitches at LHO?             : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_fap');
+            report += "\nDid iDQ upload a minimum FAP from LHO?    : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_timeseries');
+            report += "\nDid iDQ upload a FAP timeseries from LHO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_chans');
+            report += "\nDid iDQ upload possibly correlated channels from LHO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_calib');
+            report += "\nDid iDQ upload measurements of the local FAP Calibration from LHO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_lho_roc');
+            report += "\nDid iDQ upload measurements of the local ROC curve from LHO?       : "+select.options[select.selectedIndex].value;
+            report += "\n    LHO iDQ Notes : "+document.getElementById('idq_lho_text').value;
+
+            select = document.getElementById('idq_llo_glitches');
+            report += "\nDid iDQ find glitches at LLO?             : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_fap');
+            report += "\nDid iDQ upload a minimum FAP from LLO?    : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_timeseries');
+            report += "\nDid iDQ upload a FAP timeseries from LLO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_chans');
+            report += "\nDid iDQ upload possibly correlated channels from LLO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_calib');
+            report += "\nDid iDQ upload measurements of the local FAP Calibration from LLO? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('idq_llo_roc');
+            report += "\nDid iDQ upload measurements of the local ROC curve from LLO?       : "+select.options[select.selectedIndex].value;
+            report += "\n    LLO iDQ Notes : "+document.getElementById('idq_llo_text').value;
+
+            /********** Data Quality Flags *********/
+            report += "\n----------"
+
+            select = document.getElementById('DQFlagsUploaded');
+            report += "\nWere Data Quality Flags Uploaded? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('DQFlagsText').value;
+            report += "\nWhich flags were active? : "+document.getElementById('DQFlagsActiveText').value;
+            report += "\nWhich flags were inactive? : "+document.getElementById('DQFlagsInactiveText').value;
+
+            /********** cWB *********/
+            report += "\n----------"
+
+            select = document.getElementById('CED');
+            report += "\nDid cWB upload a CED? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('cWBSkymap');
+            report += "\nDid cWB upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('cWBSkymapSummary');
+            report += "\nWas a skymap summary page generated for cWB? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('cWBSkymapSanity');
+            report += "\nDid cWB's skymap look resonable? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('cWBText').value;
+
+            /********** LIB *********/
+            report += "\n----------"
+
+            select = document.getElementById('LIBStart');
+            report += "\nDid LIB start? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBSkymap');
+            report += "\nDid LIB upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBSkymapSummary');
+            report += "\nWas a skymap summary page generated for LIB? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBSkymapSanity');
+            report += "\nDid LIB's skymap look reasonable? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBBayesFactUploaded');
+            report += "\nDid LIB upload Bayes Factors? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBBayesFactPositive');
+            report += "\nWere LIB's Bayes Factors positive? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBConsistency');
+            report += "\nWere LIB's posteriors consistent with the search's estimates? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('LIBPostSamp');
+            report += "\nDid LIB upload posterior samples? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('LIBText').value;
+
+            /********** BayesWave *********/
+            report += "\n----------"
+
+            select = document.getElementById('BWStart');
+            report += "\nDid BayesWave start? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWSkymap');
+            report += "\nDid BayesWave upload a skymap? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWSkymapSummary');
+            report += "\nWas a skymap summary page generated for BayesWave? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWSkymapSanity');
+            report += "\nDid BayesWave's skymap look reasonable? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWBayesFactUploaded');
+            report += "\nDid BayesWave upload Bayes Factors? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWBayesFactPositive');
+            report += "\nWere BayesWave's Bayes Factors positive? : "+select.options[select.selectedIndex].value;
+            select = document.getElementById('BWConsistency');
+            report += "\nWere BayesWave's posteriors consistent with the search's estimates? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('BWText').value;
+
+            /********** date page was generated **********/
+            report += "\n-------------------------"
+
+            report += "\ngenerated "+new Date().toUTCString();
+
+            // open plain text representation in a new tab
+            if (checklist != null) {
+                window.URL.revokeObjectURL(checklist); // do this to avoid a memory leak
+            }
+            checklist = window.URL.createObjectURL(new Blob([report], {type:"text/plain"}));
+            window.open(checklist);
+
+            // open an alert with instructions on how to proceed
+            window.alert('A plain text representation of your responses will appear in a new tab. Please save a copy of them and post them to the EVNT Log.\nDo not navigate away from this page before you\'ve done so or your responses may be lost.');
+        };
+    </script>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" rel="stylesheet">
+    <title>
+        EM Advocate Checklist
+    </title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navar-inverse navebar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="#Humans" class="navbar-brand">
+                        Humans
+                    </a>
+                    <a href="#ApprovalProcessor" class="navbar-brand">
+                        Approval Processor
+                    </a>
+                    <a href="#EventSupervisor" class="navbar-brand">
+                        Event Supervisor
+                    </a>
+                    <a href="#DataQuality" class="navbar-brand">
+                        Data Quality
+                    </a>
+                    <a href="#ParameterEstimation" class="navbar-brand">
+                        Parameter Estimation
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <hr>
+        <div class="container" id="header">
+            <a href="#"><h1>EM Advocate Checklist</h1></a>
+        </div>
+        <div class="container" id="GraceId">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <strong><input type="text" name="graceid" id="GraceIdValue" value="GraceId"></strong>
+                    <input type="button" onclick="goToGDB()" value="Go To GraceDb">
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class='col-md-3'>
+                    <input type="button" onclick="goToESLog()" value="Go To EventSupervisor log">
+                </div>
+                <div class='col-md-3'>
+                    <input type="button" onclick="goToLLDQ()" value="Go To LLDQ Report">
+                </div>
+                <div class='col-md-3'>
+                    <input type="button" onclick="goToLHOOmegaScan()" value="Go To LHO OmegaScans">
+                </div>
+                <div class='col-md-3'>
+                    <input type="button" onclick="goToLLOOmegaScan()" value="Go To LLO OmegaScans">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container" id="distribution">
+            <fieldset id="distributionFieldset">
+                <legend>Distribution</legend>
+                <div class="row text-center">
+                    <div class='col-md-12'>
+                        <select name="Released" id="Released">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        <strong>Was this event released to EM Observers?</strong>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <textarea name="ReleasedText" id="ReleasedText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="emailsFieldset">
+                <legend>Points of Contact</legend>
+                <div class="row">
+                    <div class='col-md-3'>
+                        <strong>EM Advocate's email</strong>
+                        <br>
+                        <input type="text" name="EMAdvocateEmail" id="EMAdvocateEmail" value="">
+                    </div>
+                    <div class='col-md-3'>
+                        <strong>Hanford Run Coordinator's email</strong>
+                        <br>
+                        <input type="text" name="LHORunCoordinator" id="LHORunCoordinator" value="kawabe_k@ligo-wa.caltech.edu">
+                    </div>
+                    <div class='col-md-3'>
+                        <strong>Livingston Run Coordinator's email</strong>
+                        <br>
+                        <input type="text" name="LLORunCoordinator" id="LLORunCoordinator" value="brian@ligo-la.caltech.edu">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" onclick="downloadChecklist()" value="Download Checklist">
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+        <div class="container" id="Humans">
+            <a href="#"><h2>Humans</h2></a>
+            <fieldset id="HumansFieldset">
+                <div class="row">
+                    <div class='col-md-6'>
+                        <select name="RRT" id="RRT">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did a member of the DetChar RRT look at this event?
+                    </div>
+                    <div class='col-md-6'>
+                        <textarea name="RRTMembersText" id="RRTMembersText" rows="3" cols="43">Names of RRT members</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="PipelineExpert" id="PipelineExpert">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did a pipeline expert look at this event?
+                    </div>
+                    <div class='col-md-6'>
+                        <textarea name="PipelineExpertText" id="PipelineExpertText" rows="3" cols="43">Names of pipline experts</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Did anyone else look at this event?
+                        <br>
+                        <textarea name="AttendanceText" id="AttendenceText" rows="3" cols="43">Names of analysts</textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+        <div class="container" id="ApprovalProcessor">
+            <a href="#"><h2>Approval Processor</h2></a>
+            <fieldset id="ApprovalProcessorFieldset">
+                <div class="row">
+                    <div class='col-md-6'>
+                        <select name="ApprovalProcessorLabels" id="ApprovalProcessorLabels">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did Approval Processor label this event correctly?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="ApprovalProcessorAnnotate" id="ApprovalProcessorAnnotate">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did Approval Processor annotate GraceDb within information about its decision-making process?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-5'>
+                        <textarea name="ApprovalProcessorText" id="ApprovalProcessorText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+        <div class="container" id="EventSupervisor">
+            <a href="#"><h2>Event Supervisor</h2></a>
+            <fieldset id="EventSupervisorFieldset">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="EventSupervisorLog" id="EventSupervisorLog">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did EventSupervisor generate a log?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="EventSupervisorAnnotate" id="EventSupervisorAnnotate">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did EventSupervisor annotate GraceDb?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        <textarea name="EventSupervisorText" id="EventSupervisorText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+        <div class="container" id="DataQuality">
+            <a href="#"><h2>Data Quality</h2></a>
+            <fieldset id="LLDQReportFieldset">
+                <legend>LLDQ Report</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="LLDQReportGenerated" id="LLDQReportGenerated">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Was a LLDQ Report generated?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LLDQReportAnnotate" id="LLDQReportAnnotate">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Was a link to the LLDQ report posted to GraceDb?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <textarea name="LLDQReportText" id="LLDQReportText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="OmegaScansFieldset">
+                <legend>Omega Scans</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="h1_llhoft_launched" id="h1_llhoft_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_llhoft</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_llhoft_completed" id="h1_llhoft_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_llhoft</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_llhoft_launched" id="l1_llhoft_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_llhoft</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_llhoft_completed" id="l1_llhoft_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_llhoft</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-reduced_launched" id="h1_r-reduced_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-reduced</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-reduced_completed" id="h1_r-reduced_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-reduced</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-reduced_launched" id="l1_r-reduced_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-reduced</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-reduced_completed" id="l1_r-reduced_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-reduced</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-standard_launched" id="h1_r-standard_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-standard</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="h1_r-standard_completed" id="h1_r-standard_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>h1_r-standard</strong> OmegaScans completed successfully?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-standard_launched" id="l1_r-standard_launched">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-standard</strong> OmegaScans launched?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="l1_r-standard_completed" id="l1_r-standard_completed">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were <strong>l1_r-standard</strong> OmegaScans completed successfully?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Did any <strong>Hanford</strong> OmegaScans suggest unusual behavior? If so, which channels?
+                        <br>
+                        <textarea name="LHOOmegaScansText" id="LHOOmegaScansText" rows="3" cols="43"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        Did any <strong>Livingston</strong> OmegaScans suggest unusual behavior? If so, which channels?
+                        <br>
+                        <textarea name="LLOOmegaScansText" id="LLOOmegaScansText" rows="3" cols="43"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="iDQFieldset">
+                <legend>iDQ</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="idq_lho_glitches" id="idq_lho_glitches"> 
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ find evidence for glitches at <strong>Hanford</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_llo_glitches" id="idq_llo_glitches"> 
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ find evidence for glitches at <strong>Livingston</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_lho_fap" id="idq_lho_fap">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload minimum FAP statements from <strong>Hanford</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_llo_fap" id="idq_llo_fap">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload minimum FAP statements from <strong>Livingston</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_lho_timeseries" id="idq_lho_timeseries">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload timeseries plots from <strong>Hanford</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_llo_timeseries" id="idq_llo_timeseries">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload timeseries plots from <strong>Livingston</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_lho_chans" id="idq_lho_chans">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload which channels may be responsible at <strong>Hanford</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_llo_chans" id="idq_llo_chans">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload which channels may be responsible at <strong>Livingston</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_lho_calib" id="idq_lho_calib">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload estimates of the local FAP calibration at <strong>Hanford</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_llo_calib" id="idq_llo_calib">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload estimates of the local FAP calibration at <strong>Livingston</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_lho_roc" id="idq_lho_roc">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload estimates ofthe local ROC curves at <strong>Hanford</strong>?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="idq_llo_roc" id="idq_llo_roc">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did iDQ upload estimates ofthe local ROC curves at <strong>Livingston</strong>?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        Notes about iDQ information from <strong>Hanford</strong>
+                        <br>
+                        <textarea name="idq_lho_text" id="idq_lho_text" rows="3" cols="43"></textarea>
+                    </div>
+                    <div class='col-md-6'>
+                        Notes about iDQ information from <strong>Livingston</strong>
+                        <br>
+                        <textarea name="idq_llo_text" id="idq_llo_text" rows="3" cols="43"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="DQFlagsFieldset">
+                <legend>DQ Flags</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="DQFlagsUploaded" id="DQFlagsUploaded">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were all Data Quality flags uploaded as expected?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <textarea name="DQFlagsText" id="DQFlagsText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Which flags were active around the event?
+                        <br>
+                        <textarea name="DQFlagsActiveText" id="DQFlagsActiveText" rows="3" cols="43"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        Which flags were inactive around the event?
+                        <br>
+                        <textarea name="DQFlagsInactiveText" id="DQFlagsInactiveText" rows="3" cols="43"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+        <div class="container" id="ParameterEstimation">
+            <a href="#"><h2>Parameter Estimation</h2></a>
+            <fieldset id="CEDFieldset">
+                <legend>cWB CED</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="CED" id="CED">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did cWB post a link to a CED page?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="cWBSkymap" id="cWBSkymap">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did cWB upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="cWBSkymapSummary" id="cWBSkymapSummary">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="cWBSkymapSanity" id="cWBSkymapSanity">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        <textarea name="cWBText" id="cWBText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="LIBPEFieldset">
+                <legend>LIB Parameter Estimation</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="LIBStart" id="LIBStart">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did LIB Parameter Estimation start as expected?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LIBSkymap" id="LIBSkymap">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did LIB upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LIBSkymapSummary" id="LIBSkymapSummary">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LIBSkymapSanity" id="LIBSkymapSanity">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LIBBayesFactUploaded" id="LIBBayesFactUploaded">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did LIB upload Bayes Factors?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LIBBayesFactPositive" id="LIBBayesFactPositive">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were LIB's Bayes Factors positive?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LIBConsistency" id="LIBConsistency">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were LIB's paramters consistent with the detection pipeline's estimates?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="LIBPostSamp" id="LIBPostSamp">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did LIB upload posterior samples?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        <textarea name="LIBText" id="LIBText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="BayesWavePEFieldset">
+                <legend>BayesWave ParameterEstimation</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select name="BWStart" id="BWStart">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did BayesWave start as expected?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="BWSkymap" id="BWSkymap">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did BayesWave upload a skymap?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="BWSkymapSummary" id="BWSkymapSummary">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Was a summary page generated for the skymap?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="BWSkymapSanity" id="BWSkymapSanity">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did the skymap look reasonable (eg, small MID)?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="BWBayesFactUploaded" id="BWBayesFactUploaded">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Did BayesWave upload Bayes Factors?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="BWBayesFactPositive" id="BWBayesFactPositive">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were BayesWave's Bayes Factors positive?
+                    </div>
+                    <div class="col-md-6">
+                        <select name="BWConsitency" id="BWConsistency">
+                            <option value="Unanswered"></option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="NotApplicable">Not Applicable</option>
+                            <option value="NotSure">Not Sure</option>
+                        </select>
+                        Were BayesWave's paramters consistent with the detection pipeline's estimates?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        <textarea name="BWText" id="BWText" rows="3" cols="43">Notes</textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="button" onclick="downloadChecklist()" value="Download Checklist">
+                    or <a href="#">back to the top</a>.
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+</body>
+</html>
