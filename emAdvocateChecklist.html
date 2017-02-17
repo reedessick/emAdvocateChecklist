@@ -165,6 +165,7 @@
 
             select = document.getElementById('DQFlagsUploaded');
             report += "\nWere Data Quality Flags Uploaded? : "+select.options[select.selectedIndex].value;
+            report += "\n    "+document.getElementById('DQFlagsText').value;
             report += "\nWhich flags were active? : "+document.getElementById('DQFlagsActiveText').value;
             report += "\nWhich flags were inactive? : "+document.getElementById('DQFlagsInactiveText').value;
 
@@ -194,7 +195,7 @@
             report += "\n----------"
 
             select = document.getElementById('LALInfStart');
-            report += "\nDid LALInf star? : "+select.options[select.selectedIndex].value;
+            report += "\nDid LALInf start? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('LALInfSkymap');
             report += "\nDid LALInf upload a skymap? : "+select.options[select.selectedIndex].value;
             select = document.getElementById('LALInfSkymapSummary');
@@ -775,6 +776,11 @@
                             <option value="NotSure">Not Sure</option>
                         </select>
                         Were all Data Quality flags uploaded as expected?
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <textarea name="DQFlagsText" id="DQFlagsText" rows="3" cols="43">Notes</textarea>
                     </div>
                 </div>
                 <div class="row">
